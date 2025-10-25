@@ -1,15 +1,23 @@
-pipeline {
-    agent any 
-    stages {
-        stage('Checkout Code') {
-            steps {
-                checkout scm
-            }
+node {
+    def PYTHON = 'C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+
+    try {
+        stage('Checkout') {
+            checkout scm
         }
-        stage('Extract Data') {
-            steps {
-                bat "C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe extract.py"
-            }
+
+        stage('Setup Python') {
+            bat "${PYTHON} --version"
         }
+
+        stage('Extract') {
+            bat "${PYTHON} extract.py"
+        }
+
+    } catch (err) {
+        echo "Pipeline failed: ${err}"
+        currentBuild.result = 'FAILURE'
+    } finally {
+        echo 'Pipeline completed.'
     }
 }
