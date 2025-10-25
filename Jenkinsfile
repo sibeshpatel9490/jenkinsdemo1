@@ -10,7 +10,7 @@ node {
             bat "${PYTHON} --version"
         }
 
-        stage('Extract') {
+        stage('Extract Data') {
             bat "${PYTHON} extract.py"
         }
 
