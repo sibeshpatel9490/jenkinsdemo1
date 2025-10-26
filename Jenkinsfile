@@ -1,23 +1,33 @@
-node {
-    def PYTHON = 'C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+pipeline {
+    agent any
 
-    try {
+    environment {
+        PYTHON = 'C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+    }
+
+    stages {
         stage('Checkout') {
-            checkout scm
+            steps {
+                checkout scm
+            }
         }
 
         stage('Setup Python') {
-            bat "${PYTHON} --version"
+            steps {
+                bat "${env.PYTHON} --version"
+            }
         }
 
-        stage('Extract Data') {
-            bat "${PYTHON} extract.py"
+        stage('Extract') {
+            steps {
+                bat "${env.PYTHON} extract.py"
+            }
         }
+    }
 
-    } catch (err) {
-        echo "Pipeline failed: ${err}"
-        currentBuild.result = 'FAILURE'
-    } finally {
-        echo 'Pipeline completed.'
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
     }
 }
