@@ -4,7 +4,7 @@ print("Extract Data")
 data = {
     'Id': [101, 102, 103],
     'Name': ['Ram', 'Raj', 'Raja'],
-    'Age': [29, 34, 42]
+    'Age': [29, 34, 50]
 }
 df = pd.DataFrame(data)
 print(df)
